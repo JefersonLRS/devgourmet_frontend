@@ -29,7 +29,7 @@ export default function Home() {
             <FaArrowRightLong/>
           </button>
         </form>
-        <p><span className="opacity-70">Não possui uma conta?</span> <Link href="/signUp">Cadastre-se</Link></p>
+        <p><span className="opacity-70">Não possui uma conta?</span> <Link href="/signup">Cadastre-se</Link></p>
       </div>
     </main>
     </div>
