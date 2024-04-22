@@ -4,6 +4,7 @@ type AuthContextData = {
     user: UserProps | undefined,
     isAuthenticated: boolean,
     signIn: (credentials: SignInProps) => Promise<void>
+    signUp: (credentials: SignUpProps) => Promise<void>
 }
 
 type UserProps = {
@@ -13,6 +14,12 @@ type UserProps = {
 }
 
 type SignInProps = {
+    email: string,
+    password: string,
+}
+
+type SignUpProps = {
+    name: string,
     email: string,
     password: string,
 }
@@ -32,8 +39,12 @@ function AuthProvider({ children }: AuthProviderProps) {
         alert('CLICOU NO LOGIN')
     }
 
+    async function signUp(credentials: SignUpProps) {
+        alert('CLICOU NO CADASTRO')
+    }
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signUp }}>
             {children}
         </AuthContext.Provider>
     )

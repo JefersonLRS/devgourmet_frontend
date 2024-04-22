@@ -5,7 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import Link from "next/link";
 
 import { AuthContext } from "@/contexts/AuthContext";
-import { FormEvent, useContext } from "react";
+import { useContext } from "react";
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
