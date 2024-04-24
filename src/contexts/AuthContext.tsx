@@ -1,6 +1,8 @@
 import { ReactNode, createContext, useState } from "react"
-import { destroyCookie } from 'nookies'
+import { destroyCookie, setCookie, parseCookies } from 'nookies'
 import Router from "next/router"
+import { api } from "@/services/apiClient"
+import { toast } from 'react-toastify'
 
 type AuthContextData = {
     user: UserProps | undefined,
@@ -33,7 +35,7 @@ interface AuthProviderProps {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-function signOut() {
+export function signOut() {
     try {
         // Remove user data from cookies
         destroyCookie(undefined, '@nextauth.token')
@@ -51,11 +53,42 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [isAuthenticated, setIsAuthenticated] = useState(!!user)
 
     async function signIn({ email, password }: SignInProps) {
-        alert(`DADOS DO LOGIN: ${email}, ${password}`)
+        try {
+            const response = await api.post('/session', {
+                email,
+                password
+            })
+            
+            const { token, id, name } = response.data
+            setCookie(undefined, '@nextauth.token', token, {
+                maxAge: 60 * 60 * 24 * 30, // 30 days
+                path: '/' // all routes have access to this cookie
+            })
+
+            setUser({ id, name, email }) //email is not returned from the api, so we use the one provided by the user
+            setIsAuthenticated(true)
+            api.defaults.headers['Authorization'] = `Bearer ${token}`
+            toast.dark('User logged in successfully')
+            Router.push('/dashboard')
+        } catch (error: any) {
+            toast.error(error.response.data.error)
+            console.log(error.response.data.error);
+        }
     }
 
     async function signUp({ name, email, password }: SignUpProps) {
-        alert(`DADOS DO CADASTRO: ${name}, ${email}, ${password}`)
+        try {
+            const response = await api.post('/users', {
+                name,
+                email,
+                password
+            })
+            Router.push('/')
+            toast.dark('User created successfully')
+        } catch (error: any) {
+            toast.error(error.response.data.error)
+            console.log(error.response.data.error);
+        }
     }
 
     return (

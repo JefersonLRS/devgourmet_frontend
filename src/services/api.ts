@@ -1,12 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies } from 'nookies'
 import { AuthTokenError } from './errors/AuthTokenError'
-import { useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import { signOut } from '../contexts/AuthContext'
 
 export function setupAPIClient(context = undefined) {
-
-    const { signOut } = useContext(AuthContext)
 
     let cookies = parseCookies(context)
 

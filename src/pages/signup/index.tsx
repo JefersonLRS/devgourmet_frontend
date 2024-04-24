@@ -5,7 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import Link from "next/link";
 
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -13,7 +13,9 @@ import { Input } from "@/components/Input";
 
 export default function signup () {
 
+
   const { signUp } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const schema = z.object({
     name: z.string().min(1, 'Campo obrigatório'),
@@ -23,13 +25,16 @@ export default function signup () {
 
   type FormData = z.infer<typeof schema>
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: 'onSubmit',
   })
 
   async function onSubmit(data: FormData) {
-    await signUp(data)
+    setIsLoading(true)
+        await signUp(data)
+        reset();
+    setIsLoading(false)
   }
 
 
@@ -64,9 +69,15 @@ export default function signup () {
                 register={register}
             />
             <button className="flex items-center justify-center gap-3 text-white bg-yellow-gourmet p-3 rounded-md shadow-lg">
+            {!isLoading ? (
+              <>
                 <p className="text-lg font-medium">Cadastrar</p>
                 <FaArrowRightLong/>
-            </button>
+              </>
+            ) : (
+                <p className="text-lg font-medium">Carregando...</p>
+            ) }
+          </button>
             </form>
             <p><span className="opacity-70">Já possui uma conta?</span> <Link href="/">Faça Login</Link></p>
         </div>

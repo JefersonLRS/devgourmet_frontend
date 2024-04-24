@@ -5,15 +5,17 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import Link from "next/link";
 
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from "@/components/Input";
 
 export default function Home() {
-
+  
   const { signIn } = useContext(AuthContext);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const schema = z.object({
     email: z.string().email('E-mail inválido').min(1, 'Campo obrigatório'),
@@ -28,7 +30,9 @@ export default function Home() {
   })
 
   async function onSubmit(data: FormData) {
+    setIsLoading(true)
     await signIn(data)
+    setIsLoading(false)
   }
 
   return (
@@ -55,8 +59,14 @@ export default function Home() {
             register={register}
           />
           <button className="flex items-center justify-center gap-3 text-white bg-yellow-gourmet p-3 rounded-md shadow-lg">
-            <p className="text-lg font-medium">Entrar</p>
-            <FaArrowRightLong/>
+            {!isLoading ? (
+              <>
+                <p className="text-lg font-medium">Entrar</p>
+                <FaArrowRightLong/>
+              </>
+            ) : (
+                <p className="text-lg font-medium">Carregando...</p>
+            ) }
           </button>
         </form>
         <p><span className="opacity-70">Não possui uma conta?</span> <Link href="/signup">Cadastre-se</Link></p>
