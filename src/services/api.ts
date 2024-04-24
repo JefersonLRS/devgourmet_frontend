@@ -1,8 +1,13 @@
 import axios, { AxiosError } from 'axios'
 import { parseCookies } from 'nookies'
 import { AuthTokenError } from './errors/AuthTokenError'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 
 export function setupAPIClient(context = undefined) {
+
+    const { signOut } = useContext(AuthContext)
+
     let cookies = parseCookies(context)
 
     const api = axios.create({
@@ -19,6 +24,7 @@ export function setupAPIClient(context = undefined) {
             //user not authenticated, should be redirected to login page
             if (typeof window !== undefined) {
                 //function to logout user
+                signOut();
             } else {
                 return Promise.reject(new AuthTokenError())
             }
