@@ -68,7 +68,7 @@ export default function signup () {
                 <FaArrowRightLong/>
             </button>
             </form>
-            <p><span className="opacity-70">Já possui uma conta?</span> <Link href="/signup">Faça Login</Link></p>
+            <p><span className="opacity-70">Já possui uma conta?</span> <Link href="/">Faça Login</Link></p>
         </div>
     </main>
         </>

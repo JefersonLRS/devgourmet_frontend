@@ -35,12 +35,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<UserProps>()
     const [isAuthenticated, setIsAuthenticated] = useState(!!user)
 
-    async function signIn(credentials: SignInProps) {
-        alert('CLICOU NO LOGIN')
+    async function signIn({ email, password }: SignInProps) {
+        alert(`DADOS DO LOGIN: ${email}, ${password}`)
     }
 
-    async function signUp(credentials: SignUpProps) {
-        alert('CLICOU NO CADASTRO')
+    async function signUp({ name, email, password }: SignUpProps) {
+        alert(`DADOS DO CADASTRO: ${name}, ${email}, ${password}`)
     }
 
     return (
