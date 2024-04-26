@@ -8,6 +8,9 @@ import { setupAPIClient } from "@/services/api";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import mesasIcone from '@/assets/images/mesasIcone.svg';
+import OrderCard from "@/components/OrderCard";
+import Link from "next/link";
+import Plus from '@/assets/images/plus.svg';
 
 type OrdersProps = {
     id: string,
@@ -54,17 +57,22 @@ export default function pedidos({ orders }: PedidosProps) {
                 />
                 <div>
                     {orderList.map( order => (
-                        <div className="w-full my-3" key={order.id}>
-                            <div className="bg-white w-full flex">
-                                <div className="bg-yellow-gourmet w-3"></div>
-                                <div className="flex gap-6 ml-2 p-4">
-                                    <Image src={mesasIcone} className="w-[30px]" alt="Mesa"/>
-                                    <p>Mesa {order.table}</p>
-                                </div>
-                            </div>
-                        </div>
+                        <OrderCard
+                            key={order.id}
+                            table={order.table}
+                        />
                     ))}
                 </div>
+                
+                <div className="bg-yellow-gourmet rounded-full w-[60px] h-[60px] flex justify-center 
+                items-center absolute bottom-0 right-0 m-3 md:w-[80px] md:h-[80px]
+                hover:bg-yellow-200 transition duration-300 ease-in-out
+                ">
+                    <Link className="w-full h-full flex justify-center items-center" href='/pedidos/new'>
+                        <Image src={Plus} alt="Adicionar novo pedido"/>
+                    </Link>
+                </div>
+                
             </main>
         </Layout>
         </div>
