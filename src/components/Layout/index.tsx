@@ -44,10 +44,8 @@ export default function Layout({ children }: LayoutProps) {
             )}
             {isMobile && (
                 <div className="flex flex-col">
-                    <div className="flex-[1]">
-                        <SideBarMobile/>
-                    </div>
-                    <div className="flex-[5] p-6">
+                    <SideBarMobile/>
+                    <div className="p-3">
                         {children}
                     </div>
                 </div>

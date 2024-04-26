@@ -18,7 +18,7 @@ export default function SideBarMobile() {
 
 
     return (
-        <div className="w-full h-screen">
+        <div className="w-full">
         <div className="w-full bg-purple-gourmet p-4 flex justify-center">
             <Image src={logo} alt="Logo"/>
         </div>
