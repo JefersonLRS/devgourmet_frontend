@@ -1,6 +1,7 @@
 import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState, useContext } from "react";
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 export default function pedidos() {
 
@@ -24,11 +25,14 @@ export default function pedidos() {
     }, [])
 
     return (
+        <div>
+        <Head><title>Pedidos - DevGourmet</title></Head>
         <Layout>
             <div>
                 <h1 className="text-2xl">Pedidos!</h1>
             </div>
         </Layout>
+        </div>
     )
 }
 

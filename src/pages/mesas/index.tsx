@@ -1,6 +1,7 @@
 import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 export default function mesas() {
 
@@ -24,11 +25,14 @@ export default function mesas() {
     }, [])
 
     return (
-        <Layout>
-            <div>
-                <h1 className="text-2xl">Mesas!</h1>
-            </div>
-        </Layout>
+        <div>
+            <Head><title>Mesas - DevGourmet</title></Head>
+            <Layout>
+                <div>
+                    <h1 className="text-2xl">Mesas!</h1>
+                </div>
+            </Layout>
+        </div>
     )
 }
 

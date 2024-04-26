@@ -1,6 +1,7 @@
 import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 export default function produtos() {
 
@@ -24,11 +25,14 @@ export default function produtos() {
     }, [])
 
     return (
-        <Layout>
-            <div>
-                <h1 className="text-2xl">Produtos!</h1>
-            </div>
-        </Layout>
+        <div>
+            <Head><title>Produtos - DevGourmet</title></Head>
+            <Layout>
+                <div>
+                    <h1 className="text-2xl">Produtos!</h1>
+                </div>
+            </Layout>
+        </div>
     )
 }
 
