@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
 
+import pedidosIcon from '@/assets/images/pedidosIcone.svg';
+
 export default function pedidos() {
 
     const [isMobile, setIsMobile] = useState(false);
@@ -28,9 +30,11 @@ export default function pedidos() {
         <div>
         <Head><title>Pedidos - DevGourmet</title></Head>
         <Layout>
-            <div>
-                <h1 className="text-2xl">Pedidos!</h1>
-            </div>
+            <main>
+                <div>
+
+                </div>
+            </main>
         </Layout>
         </div>
     )
