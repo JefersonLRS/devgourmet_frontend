@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         
       </Head>
-      <body>
+      <body className="bg-grey-gourmet">
         <Main />
         <NextScript />
       </body>

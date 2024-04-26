@@ -86,7 +86,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             setIsAuthenticated(true)
             api.defaults.headers['Authorization'] = `Bearer ${token}`
             toast.dark('User logged in successfully')
-            Router.push('/dashboard')
+            Router.push('/pedidos')
         } catch (error: any) {
             toast.error(error.response.data.error)
             console.log(error.response.data.error);
