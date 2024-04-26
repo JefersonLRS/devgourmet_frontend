@@ -2,6 +2,8 @@ import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
+import TitleCard from "@/components/TitleCard";
+import mesasIcone from '@/assets/images/mesasIcone.svg';
 
 export default function mesas() {
 
@@ -28,9 +30,12 @@ export default function mesas() {
         <div>
             <Head><title>Mesas - DevGourmet</title></Head>
             <Layout>
-                <div>
-                    <h1 className="text-2xl">Mesas!</h1>
-                </div>
+                <main>
+                    <TitleCard
+                        icon={mesasIcone}
+                        title="Mesas"
+                    />
+                </main>
             </Layout>
         </div>
     )

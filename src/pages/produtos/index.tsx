@@ -2,6 +2,8 @@ import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
+import produtosIcone from '@/assets/images/produtosIcone.svg';
+import TitleCard from "@/components/TitleCard";
 
 export default function produtos() {
 
@@ -28,9 +30,12 @@ export default function produtos() {
         <div>
             <Head><title>Produtos - DevGourmet</title></Head>
             <Layout>
-                <div>
-                    <h1 className="text-2xl">Produtos!</h1>
-                </div>
+                <main>
+                    <TitleCard
+                        icon={produtosIcone}
+                        title="Produtos"
+                    />
+                </main>
             </Layout>
         </div>
     )

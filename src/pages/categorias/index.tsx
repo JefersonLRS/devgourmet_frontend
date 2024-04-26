@@ -2,6 +2,8 @@ import { canSSRAuth } from "@/utils/canSSRAuth"
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
+import TitleCard from "@/components/TitleCard";
+import categoriasIcone from '@/assets/images/categoriasIcone.svg';
 
 export default function categorias() {
 
@@ -28,9 +30,12 @@ export default function categorias() {
         <div>
             <Head><title>Categorias - DevGourmet</title></Head>
             <Layout>
-                <div>
-                    <h1 className="text-2xl">Categorias!</h1>
-                </div>
+                <main>
+                    <TitleCard
+                        icon={categoriasIcone}
+                        title="Categorias"
+                    />
+                </main>
             </Layout>
         </div>
     )
