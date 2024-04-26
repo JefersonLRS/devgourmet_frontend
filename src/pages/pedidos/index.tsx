@@ -1,16 +1,15 @@
 import { canSSRAuth } from "@/utils/canSSRAuth"
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
 import Head from "next/head";
 import pedidosIcone from '@/assets/images/pedidosIcone.svg';
 import TitleCard from "@/components/TitleCard";
 import { setupAPIClient } from "@/services/api";
-import { toast } from "react-toastify";
 import Image from "next/image";
-import mesasIcone from '@/assets/images/mesasIcone.svg';
 import OrderCard from "@/components/OrderCard";
 import Link from "next/link";
 import Plus from '@/assets/images/plus.svg';
+import avatar from '@/assets/images/avatar.svg';
 
 type OrdersProps = {
     id: string,
@@ -55,14 +54,22 @@ export default function pedidos({ orders }: PedidosProps) {
                     icon={pedidosIcone}
                     title="Pedidos"
                 />
-                <div>
-                    {orderList.map( order => (
-                        <OrderCard
-                            key={order.id}
-                            table={order.table}
-                        />
-                    ))}
-                </div>
+            
+                {orderList.length > 0 ? (
+                    <div>
+                        {orderList.map( order => (
+                            <OrderCard
+                                key={order.id}
+                                table={order.table}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="flex flex-col items-center justify-center mt-[100px] md:mt-[200px]">
+                        <Image className="w-[50%] md:w-[20%]" src={avatar} alt="Avatar" />
+                        <p className="text-gray-400 text-lg mt-5">Nenhum pedido encontrado</p>
+                    </div>
+                )}
                 
                 <div className="bg-yellow-gourmet rounded-full w-[60px] h-[60px] flex justify-center 
                 items-center absolute bottom-0 right-0 m-3 md:w-[80px] md:h-[80px]
