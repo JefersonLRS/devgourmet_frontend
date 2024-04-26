@@ -3,7 +3,7 @@ import { parseCookies } from 'nookies'
 import { AuthTokenError } from './errors/AuthTokenError'
 import { signOut } from '../contexts/AuthContext'
 
-export function setupAPIClient(context = undefined) {
+export function setupAPIClient(context = undefined as any) {
 
     let cookies = parseCookies(context)
 
