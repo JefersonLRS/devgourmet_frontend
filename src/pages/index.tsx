@@ -11,6 +11,8 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from "@/components/Input";
 
+import { canSSRGuest } from "@/utils/canSSRGuest";
+
 export default function Home() {
   
   const { signIn } = useContext(AuthContext);
@@ -75,3 +77,10 @@ export default function Home() {
     </div>
   );
 }
+
+
+export const getServerSideProps = canSSRGuest(async (context) => {
+    return {
+      props: {}
+    }
+})
