@@ -49,14 +49,14 @@ export default function pedidos({ orders }: PedidosProps) {
         <div>
         <Head><title>Pedidos - DevGourmet</title></Head>
         <Layout>
-            <main>
+            <main className="flex flex-col gap-3 md:gap-5">
                 <TitleCard
                     icon={pedidosIcone}
                     title="Pedidos"
                 />
             
                 {orderList.length > 0 ? (
-                    <div>
+                    <div className="flex flex-col gap-3">
                         {orderList.map( order => (
                             <OrderCard
                                 key={order.id}
