@@ -19,6 +19,7 @@ const config: Config = {
         "yellow-gourmet": "#FFDB1F",
         "red-gourmet": "#DF2B2B",
         "input-color": "#F3F3F3",
+        "dark-gourmet": "#5B5B5B",
       }
     },
   },
