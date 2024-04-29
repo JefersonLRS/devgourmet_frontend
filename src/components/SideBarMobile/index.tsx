@@ -49,7 +49,7 @@ export default function SideBarMobile() {
                     </Link>
                 </li>
                 <li>
-                    <Link href='/mesas' className={(pathname == '/mesas') ? current : general}>
+                    <Link href='/mesas' className={(pathname == '/mesas' || pathname == '/mesas/novaMesa') ? current : general}>
                         <Image className="w-[20px]" src={mesasIcone} alt="mesas"/>
                         <p>Mesas</p>
                     </Link>

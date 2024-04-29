@@ -95,7 +95,7 @@ export default function mesas({ allOrders }: mesasProps) {
                             
                             {!isMobile && (
                                 <div className="flex gap-2 w-full justify-end">
-                                    <Link href='/meses/abrirMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
+                                    <Link href='/mesas/novaMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
                                     flex justify-center items-center hover:bg-purple-400 transition-all duration-300">
                                         <p>Nova mesa</p>
                                     </Link>
@@ -124,7 +124,7 @@ export default function mesas({ allOrders }: mesasProps) {
                         <div>
                             {isMobile && (
                                 <div className="flex gap-2 w-full text-sm">
-                                    <Link href='/meses/abrirMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
+                                    <Link href='/mesas/novaMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
                                     flex justify-center items-center w-full hover:bg-purple-400 transition-all duration-300">
                                         <p>Nova mesa</p>
                                     </Link>
