@@ -7,7 +7,7 @@ import mesasIcone from '@/assets/images/mesasIcone.svg';
 import editIcon from '@/assets/images/edit.svg';
 import Image from "next/image";
 import { setupAPIClient } from "@/services/api";
-import OrderCard from "@/components/OrderCard";
+import TableCard from "@/components/TableCard";
 import Link from "next/link";
 
 interface OrdersProps {
@@ -44,6 +44,10 @@ export default function mesas({ allOrders }: mesasProps) {
         }
     }, [])
 
+    useEffect(() => {
+        setTableList(allOrders)
+    }, [tableList])
+
     return (
         <div>
             <Head><title>Mesas - DevGourmet</title></Head>
@@ -74,14 +78,10 @@ export default function mesas({ allOrders }: mesasProps) {
                                 {isMobile && (
                                 <div className="h-[330px] mt-3 overflow-auto">
                                     { tableList.length > 0 ? (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            {tableList.map( order => (
-                                                <OrderCard
-                                                    key={order.id}
-                                                    table={order.table}
-                                                    status={order.status}
-                                                />
-                                            ))}
+                                        <div className="w-full">
+                                            <TableCard
+                                                allOrders={tableList}
+                                            />
                                         </div>
                                     ) : (
                                     <div className="flex flex-col items-center opacity-30 justify-center mt-[100px]">
@@ -107,14 +107,10 @@ export default function mesas({ allOrders }: mesasProps) {
                             {!isMobile && (
                                 <div className="h-[380px] overflow-auto">
                                     { tableList.length > 0 ? (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            {tableList.map( order => (
-                                                <OrderCard
-                                                    key={order.id}
-                                                    table={order.table}
-                                                    status={order.status}
-                                                />
-                                            ))}
+                                        <div className="w-full">
+                                           <TableCard
+                                                allOrders={tableList}
+                                            />
                                         </div>
                                     ) : (
                                     <div className="flex flex-col items-center opacity-30 justify-center mt-[100px]">
