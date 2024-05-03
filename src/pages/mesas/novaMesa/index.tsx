@@ -51,12 +51,11 @@ export default function novaMesa() {
             toast.success(`Mesa ${table} aberta com sucesso`);
             setClient('');
             setTable('');
+            Router.push('/mesas');
         })
         .catch((error: any) => {
             console.log(error.response.data);
             toast.error(error.response.data.error);
-            setClient('');
-            setTable('');
         })
     }
 

@@ -77,7 +77,7 @@ export default function pedidos({ orders }: PedidosProps) {
                 items-center absolute bottom-0 right-0 m-3 md:w-[80px] md:h-[80px]
                 hover:bg-yellow-200 transition duration-300 ease-in-out
                 ">
-                    <Link className="w-full h-full flex justify-center items-center" href='/pedidos/new'>
+                    <Link className="w-full h-full flex justify-center items-center" href='/pedidos/novoPedido'>
                         <Image src={Plus} alt="Adicionar novo pedido"/>
                     </Link>
                 </div>

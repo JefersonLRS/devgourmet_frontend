@@ -31,7 +31,7 @@ export default function SideBarMobile() {
         <nav>
             <ul className="flex items-center justify-between p-5 bg-white">
                 <li>
-                    <Link href='/pedidos' className={(pathname == '/pedidos') ? current : general}>
+                    <Link href='/pedidos' className={(pathname == '/pedidos' || pathname == '/pedidos/novoPedido') ? current : general}>
                         <Image className="w-[15px]" src={pedidosIcone} alt="pedidos"/>
                         <p>Pedidos</p>
                     </Link>

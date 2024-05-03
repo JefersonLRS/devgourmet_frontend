@@ -28,7 +28,7 @@ export default function SideBar () {
                 <nav>
                     <ul className="flex flex-col gap-7 text-lg font-medium">
                         <li>
-                            <Link href='/pedidos' className={(pathname == '/pedidos') ? current : general}>
+                            <Link href='/pedidos' className={(pathname == '/pedidos' || pathname == '/pedidos/novoPedido') ? current : general}>
                                 <Image className="w-[25px]" src={pedidosIcone} alt="pedidos"/>
                                 <p>Pedidos</p>
                             </Link>
