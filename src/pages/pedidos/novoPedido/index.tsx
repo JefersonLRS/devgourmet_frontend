@@ -20,6 +20,16 @@ interface CategoriesProps {
     }[]
 }
 
+interface OrdersProps {
+    orderList: {
+        id: string,
+        table: number,
+        status: boolean,
+        draft: boolean,
+        name?: string,
+    }[]
+}
+
 interface ProductsProps {
     id: string;
     name: string;
@@ -27,17 +37,34 @@ interface ProductsProps {
     category_id: number;
 }
 
-export default function novoPedido( categoryList: CategoriesProps ) {
+interface DraftProps {
+    id: string;
+    order_id: string;
+    productName: string;
+    amount: number;
+}
+
+export default function novoPedido( { categoryList, orderList }: { categoryList: CategoriesProps, orderList: OrdersProps } ) {
 
     const [isMobile, setIsMobile] = useState(false);
     
     const [table, setTable] = useState('');
-    const [categories, setCategories] = useState(categoryList || []);
+    
     const [selectedCategory, setSelectedCategory] = useState(0);
-    const [products, setProducts] = useState<ProductsProps[]>([]);
+    const [categories, setCategories] = useState(categoryList || []);
+
+    const [selectedTable, setSelectedTable] = useState(0);
+    const [tableList, setTableList] = useState(orderList || []);
+    
     const [selectedProduct, setSelectedProduct] = useState(0);
+    const [products, setProducts] = useState<ProductsProps[]>([]);
+    
+    const [orders, setOrders] = useState<DraftProps[]>([]);
+
     const [quantity, setQuantity] = useState('');
     
+
+    // AQUI SÃO OS ESTADOS QUE SERÃO ENVIADOS PARA O COMPONENTE DraftOrderCard
     const [idMesa, setIdMesa] = useState('');
     const [productId, setProductId] = useState('');
     const [quantityProduct, setQuantityProduct] = useState(0);
@@ -59,16 +86,35 @@ export default function novoPedido( categoryList: CategoriesProps ) {
         }
     }, [])
 
+    const handleSelectOrder = async (e: FormEvent<HTMLSelectElement>) => {
+        const index = (Number(e.currentTarget.value));
+        const apiClient = setupAPIClient();
+        console.log(index);
+        
+        try {
+            const response = await apiClient.get('/order/findItems', {
+                params: {
+                    order_id: tableList[index].id
+                }
+            })
+            console.log(response.data);
+            setOrders(response.data as DraftProps[]);
+        }
+        catch (error) {
+            console.log("erro ao buscar pedidos", error);
+        }
+    }
+
     const handleSelectCategory = async (e: FormEvent<HTMLSelectElement>) => {
-        const index = parseInt(e.currentTarget.value);
-        setSelectedCategory(index);
+        const index = (Number(e.currentTarget.value));
         const apiClient = setupAPIClient();
         try {
             const response = await apiClient.get('/category/product', {
                 params: {
-                    category_id: categories.categoryList[index].id
+                    category_id: categories[index].id
                 }
             })
+            setSelectedCategory(index);
             setProducts(response.data as ProductsProps[]);
             return response.data;
         } catch (error) {
@@ -76,24 +122,10 @@ export default function novoPedido( categoryList: CategoriesProps ) {
         }
     }
 
-    const getDraftOrders = async (table: string) => {
-        const apiClient = setupAPIClient();
-        try {
-            const response = await apiClient.get('/order/find', {
-                params: {
-                    table: parseInt(table),
-                }
-            })
-            return response.data.id as string;
-        } catch (error) {
-            console.log("erro ao buscar pedido", error);
-        }
-    }
-
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        const idDaMesa = await getDraftOrders(table);
+        const idDaMesa = tableList[selectedTable].id;
         const productId = products[selectedProduct].id;
         const quantityProduct = parseInt(quantity);
 
@@ -119,6 +151,8 @@ export default function novoPedido( categoryList: CategoriesProps ) {
         setQuantity('');
         setSelectedCategory(0);
     }
+
+
 
     return (
         <div>
@@ -151,20 +185,23 @@ export default function novoPedido( categoryList: CategoriesProps ) {
                                 </Link>
                                 <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
                                     <div className="flex gap-3">
-                                        <input
+                                        <select
                                             className="w-full bg-input-color p-3 rounded-md"
-                                            type="number"
-                                            placeholder="Nº da mesa..."
-                                            value={table}
-                                            onChange={e => setTable(e.target.value)}
-                                        />
+                                            onChange={handleSelectOrder}
+                                            defaultValue="default"
+                                        >
+                                            <option value="default" disabled>Mesa</option>
+                                            {tableList.map((order, index) => (
+                                                <option key={order.id} value={index}>{order.table}</option>
+                                            ))}
+                                        </select>
                                         <select 
                                             className="w-full bg-input-color p-3 rounded-md"
                                             defaultValue="default"
                                             onChange={handleSelectCategory}
                                         >
                                             <option value="default" disabled>Categoria</option>
-                                            {categories.categoryList.map((category, index) => (
+                                            {categories.map((category, index) => (
                                                 <option key={category.id} value={index}>{category.name}</option>
                                             ))}
 
@@ -204,11 +241,15 @@ export default function novoPedido( categoryList: CategoriesProps ) {
 
                                 <div>
                                     {/* LISTAR DRAFT PEDIDOS */}
-                                    <DraftOrderCard
-                                        table_id={idMesa}
-                                        product={productId}
-                                        quantity={quantityProduct}
-                                    />
+                                    {orders.map((order, index) => (
+                                        <DraftOrderCard 
+                                            key={order.id}
+                                            id={order.id}
+                                            table_id={order.order_id}
+                                            product={order.product_id}
+                                            quantity={order.amount}
+                                        />
+                                    ))}
                                 </div>
 
                                 <div>
@@ -225,11 +266,13 @@ export default function novoPedido( categoryList: CategoriesProps ) {
 
 export const getServerSideProps = canSSRAuth(async (context) => {
     const api = setupAPIClient(context);
-    const response = await api.get('/category');
+    const responseCategory = await api.get('/category');
+    const responseOrders = await api.get('/allOrders');
 
     return {
       props: {
-        categoryList: response.data
+        categoryList: responseCategory.data,
+        orderList: responseOrders.data
       }
     }
 })
