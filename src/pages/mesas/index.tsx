@@ -72,7 +72,7 @@ export default function mesas({ allOrders }: mesasProps) {
                                         <p>Aguardando</p>    
                                     </div>    
                                     <div className="bg-purple-gourmet w-full py-2 md:w-auto px-5 text-[10px] md:text-sm text-white flex justify-center items-center rounded-md">
-                                        <p>Atendidos</p>    
+                                        <p>Fizeram pedido</p>    
                                     </div>    
                                 </div>
                                 {isMobile && (

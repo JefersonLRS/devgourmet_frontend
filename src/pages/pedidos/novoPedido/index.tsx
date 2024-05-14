@@ -14,6 +14,7 @@ import Link from "next/link";
 import lixoIcone from '@/assets/images/lixo.svg'
 import DraftOrderCard from "@/components/DraftOrderCard";
 import Router from "next/router";
+import Avatar from '@/assets/images/avatar.svg'
 
 interface CategoriesProps {
     categoryList: {
@@ -204,15 +205,107 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
 
                     <div className="w-full bg-white h-[485px] md:h-[550px] rounded-md shadow-lg p-4 md:p-6">
                         {!isMobile && (
-                            <div className="flex justify-between items-center">
-                                <div className="flex mb-5 gap-5 justify-start items-center opacity-60">
-                                    <h1 className="text-4xl font-extrabold">Novo Pedido</h1>
-                                    <Image src={editIcon} alt="Icone"/>
+                            <div className="flex flex-col justify-between h-full">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex mb-5 gap-5 justify-start items-center opacity-60">
+                                        <h1 className="text-4xl font-extrabold">Novo Pedido</h1>
+                                        <Image src={editIcon} alt="Icone"/>
+                                    </div>
+                                    <Link href='/mesas/novaMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
+                                    flex justify-center items-center hover:bg-purple-400 transition-all duration-300">
+                                        <p>Nova mesa</p>
+                                    </Link>
                                 </div>
-                                <Link href='/mesas/novaMesa' className="bg-purple-gourmet text-white px-6 py-3 rounded-md
-                                flex justify-center items-center hover:bg-purple-400 transition-all duration-300">
-                                    <p>Nova mesa</p>
-                                </Link>
+
+                                <div className="flex gap-3 h-[330px]">
+                                    {/* CARDS E LISTA DE PEDIDOS */}
+                                    <form className="flex h-full flex-col justify-between gap-3 w-full" onSubmit={handleSubmit}>
+                                        <select
+                                            className="w-full bg-input-color p-4 rounded-md"
+                                            onChange={handleSelectOrder}
+                                            defaultValue="default"
+                                        >
+                                            <option value="default" disabled>Mesa</option>
+                                            {tableList.map((order, index) => (
+                                                <option key={order.id} value={index}>{order.table}</option>
+                                            ))}
+                                        </select>
+                                        <select 
+                                            className="w-full bg-input-color p-4 rounded-md"
+                                            defaultValue="default"
+                                            onChange={handleSelectCategory}
+                                        >
+                                            <option value="default" disabled>Categoria</option>
+                                            {categories.map((category, index) => (
+                                                <option key={category.id} value={index}>{category.name}</option>
+                                            ))}
+
+                                        </select>
+                                        <select 
+                                            className="w-full bg-input-color p-4 rounded-md"
+                                            onChange={(e) => setSelectedProduct(Number(e.target.value))}
+                                            defaultValue="default"
+                                        >
+                                            <option value="default" disabled>Selecione o produto</option>
+                                            {/* LISTAR PRODUTOS */}
+                                            {products.map((item, index) => (
+                                                <option key={item.id} value={index}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                        <input 
+                                            type="number"
+                                            className="w-full bg-input-color p-4 rounded-md"
+                                            placeholder="Quantidade..."
+                                            value={quantity}
+                                            onChange={e => setQuantity(e.target.value)}
+                                        />
+                                        <button 
+                                            type="submit"
+                                            className="bg-purple-gourmet w-full text-white
+                                            p-4 rounded-md flex items-center justify-center gap-2"
+                                        >
+                                            <p>Adicionar</p>
+                                            <Image src={plusIcon} className="w-[10px] h-[10px]" alt="Icone"/>
+                                        </button>
+                                    </form>
+                                    <div className="h-full overflow-auto w-full">
+                                    {/* LISTAR DRAFT PEDIDOS */}
+                                    {orders.length > 0 ? (
+                                        orders.map((order, index) => (
+                                            <div key={index}>
+                                                <DraftOrderCard
+                                                    id={order.id}
+                                                    table_id={order.order_id}
+                                                    product={order.product_id}
+                                                    quantity={order.amount}
+                                                    handleDelete={() => handleDelete(order.id)}
+                                                />
+                                            </div>
+                                        ))
+                                    ): (
+                                        <div className="w-full h-full opacity-60 flex flex-col justify-center items-center">
+                                            <Image src={Avatar} alt="Avatar"/>
+                                            <p>Ainda não há pedidos.</p>
+                                        </div>
+                                    )}
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-2">
+                                    {/* BOTÕES CANCELAR E FAZER PEDIDO */}
+                                    <button
+                                    className="w-full p-3 border border-gray-400 text-gray-400 rounded-md"
+                                    onClick={() => Router.push('/pedidos')}
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button 
+                                    className="w-full p-3 bg-yellow-gourmet text-black rounded-md"
+                                    onClick={handleSendOrder}
+                                    >
+                                        Fazer pedido
+                                    </button>
+                                </div>
                             </div>
                         )}
                         {isMobile && (
@@ -276,7 +369,6 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
                                         </button>
                                     </div>
                                 </form>
-
                                 <div className="h-[150px] overflow-auto">
                                     {/* LISTAR DRAFT PEDIDOS */}
                                     {orders.map((order, index) => (
