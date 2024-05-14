@@ -58,11 +58,12 @@ export default function pedidos({ orders }: PedidosProps) {
                 <div className="h-[350px] overflow-auto">
                     {orderList.length > 0 ? (
                         <div className="flex flex-col gap-3">
-                            {orderList.map( order => (
-                                <OrderCard
-                                    key={order.id}
+                            {orderList.map( (order, index) => (
+                                <div key={index}>
+                                    <OrderCard
                                     table={order.table}
                                 />
+                                </div>
                             ))}
                         </div>
                     ) : (

@@ -11,6 +11,7 @@ import plusIcon from '@/assets/images/plus.svg';
 import { setupAPIClient } from "@/services/api";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import lixoIcone from '@/assets/images/lixo.svg'
 import DraftOrderCard from "@/components/DraftOrderCard";
 
 interface CategoriesProps {
@@ -40,11 +41,11 @@ interface ProductsProps {
 interface DraftProps {
     id: string;
     order_id: string;
-    productName: string;
+    product_id: string;
     amount: number;
 }
 
-export default function novoPedido( { categoryList, orderList }: { categoryList: CategoriesProps, orderList: OrdersProps } ) {
+export default function novoPedido( { categoryList, orderList }: { categoryList: CategoriesProps[], orderList: OrdersProps[] } ) {
 
     const [isMobile, setIsMobile] = useState(false);
     
@@ -63,6 +64,7 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
 
     const [quantity, setQuantity] = useState('');
     
+    const [productName, setProductName] = useState<String[]>()
 
     // AQUI SÃO OS ESTADOS QUE SERÃO ENVIADOS PARA O COMPONENTE DraftOrderCard
     const [idMesa, setIdMesa] = useState('');
@@ -88,6 +90,7 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
 
     const handleSelectOrder = async (e: FormEvent<HTMLSelectElement>) => {
         const index = (Number(e.currentTarget.value));
+        setSelectedTable(index);
         const apiClient = setupAPIClient();
         console.log(index);
         
@@ -141,6 +144,15 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
             setIdMesa(idDaMesa as string);
             setProductId(products[selectedProduct].id);
             setQuantityProduct(parseInt(quantity));
+            console.log(idDaMesa);
+
+            const newOrder = {
+                id: idDaMesa,
+                order_id: idDaMesa,
+                product_id: productId,
+                amount: quantityProduct
+            }
+            setOrders([...orders, newOrder])
         }
         catch (error) {
             console.log("erro ao adicionar produto", error);
@@ -150,9 +162,20 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
         setSelectedProduct(0);
         setQuantity('');
         setSelectedCategory(0);
+        setSelectedTable(0);
+        
     }
 
-
+    async function handleDelete(item_id: string) {
+        const api = setupAPIClient();
+        await api.delete('/order/remove', {
+            params: {
+                item_id
+            }
+        });
+        const newOrders = orders.filter((order) => order.id !== item_id);
+        setOrders(newOrders);
+    }
 
     return (
         <div>
@@ -239,16 +262,18 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
                                     </div>
                                 </form>
 
-                                <div>
+                                <div className="h-[150px] overflow-auto">
                                     {/* LISTAR DRAFT PEDIDOS */}
                                     {orders.map((order, index) => (
-                                        <DraftOrderCard 
-                                            key={order.id}
-                                            id={order.id}
-                                            table_id={order.order_id}
-                                            product={order.product_id}
-                                            quantity={order.amount}
-                                        />
+                                        <div key={index}>
+                                            <DraftOrderCard
+                                                id={order.id}
+                                                table_id={order.order_id}
+                                                product={order.product_id}
+                                                quantity={order.amount}
+                                                handleDelete={() => handleDelete(order.id)}
+                                            />
+                                        </div>
                                     ))}
                                 </div>
 

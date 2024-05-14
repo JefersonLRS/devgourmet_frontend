@@ -9,23 +9,14 @@ interface DraftOrdersProps {
     table_id: string;
     product: string;
     quantity: number;
+    handleDelete: (product_id: string) => void;
 }
 
-export default function DraftOrderCard({ id, table_id, product, quantity }: DraftOrdersProps) {
+export default function DraftOrderCard({ id, table_id, product, quantity, handleDelete }: DraftOrdersProps) {
     
     const atendidos = "bg-purple-gourmet w-3 rounded-l-md";
 
     const [productName, setProductName] = useState('');
-
-    const handleDelete = async () => {
-        const api = setupAPIClient();
-        await api.delete('/order/remove', {
-            params: {
-                item_id: id
-            }
-        });
-        
-    }
 
     useEffect(() => {
 
@@ -49,14 +40,14 @@ export default function DraftOrderCard({ id, table_id, product, quantity }: Draf
                     <div className="bg-white w-full flex border rounded-md">
                             <div className="w-full flex flex-[3]">
                                 <div className={atendidos}></div>
-                                <div className="flex gap-6 w-full ml-2 p-3 md:p-4 font-medium">
+                                <div className="flex gap-6 w-full ml-2 p-3 md:p-4 text-sm md:text-base font-medium">
                                     <p>{quantity}</p>
                                     <p>{productName}</p>
                                 </div>
                             </div>
                             
                             <div className="flex-[1] flex items-center justify-end">
-                                <button onClick={handleDelete}>
+                                <button onClick={() => handleDelete(id)}>
                                     <Image 
                                         src={lixoIcone} 
                                         className="w-[20px] h-[20px] md:w-[25px] md:h-[25px] mr-4 hover:opacity-60
