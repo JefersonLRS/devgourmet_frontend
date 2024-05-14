@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import lixoIcone from '@/assets/images/lixo.svg'
 import DraftOrderCard from "@/components/DraftOrderCard";
+import Router from "next/router";
 
 interface CategoriesProps {
     categoryList: {
@@ -163,7 +164,7 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
         setQuantity('');
         setSelectedCategory(0);
         setSelectedTable(0);
-        
+
     }
 
     async function handleDelete(item_id: string) {
@@ -175,6 +176,20 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
         });
         const newOrders = orders.filter((order) => order.id !== item_id);
         setOrders(newOrders);
+    }
+
+    async function handleSendOrder() {
+        const api = setupAPIClient();
+        try {
+            await api.put('/order/send', {
+                order_id: idMesa
+            })
+            toast.success('Pedido enviado com sucesso');
+            Router.push('/pedidos');
+        }
+        catch (error) {
+            console.log("erro ao enviar pedido", error);
+        }
     }
 
     return (
@@ -277,8 +292,20 @@ export default function novoPedido( { categoryList, orderList }: { categoryList:
                                     ))}
                                 </div>
 
-                                <div>
+                                <div className="flex gap-2">
                                     {/* BOTÕES CANCELAR E FAZER PEDIDO */}
+                                    <button
+                                    className="w-full p-3 border border-gray-400 text-gray-400 rounded-md"
+                                    onClick={() => Router.push('/pedidos')}
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button 
+                                    className="w-full p-3 bg-yellow-gourmet text-black rounded-md"
+                                    onClick={handleSendOrder}
+                                    >
+                                        Fazer pedido
+                                    </button>
                                 </div>
                             </div>
                         )}
