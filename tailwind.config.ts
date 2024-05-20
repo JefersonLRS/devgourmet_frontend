@@ -20,6 +20,9 @@ const config: Config = {
         "red-gourmet": "#DF2B2B",
         "input-color": "#F3F3F3",
         "dark-gourmet": "#5B5B5B",
+      },
+      boxShadow: {
+        'modal': '0px 0px 10px 0px rgba(0, 0, 0, 0.06)',
       }
     },
   },

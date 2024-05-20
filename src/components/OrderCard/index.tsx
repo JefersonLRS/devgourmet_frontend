@@ -3,8 +3,8 @@ import mesasIcone from "@/assets/images/mesasIcone.svg"
 
 export default function OrderCard({ table, status }: { table: number | string, status?: boolean}) {
     
-    const aguardando = "bg-yellow-gourmet w-3 rounded-l-md"
-    const atendidos = "bg-purple-gourmet w-3 rounded-l-md"
+    const aguardando = "bg-purple-gourmet w-3 rounded-l-md"
+    const atendidos = "bg-yellow-gourmet w-3 rounded-l-md"
     
     return (
         <div className="w-full">
